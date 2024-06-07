@@ -1,0 +1,60 @@
+@{
+    ViewData["Title"] = "ANÁLISIS DE SENTIMIENTO";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-center mt-4">@ViewData["Title"]</h1>
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header" style="background-color: #28a72e; color: white;">
+                    <h5>Sentimiento a evaluar</h5>
+                </div>
+                <div class="card-body">
+                    <form asp-controller="ML" asp-action="Predict" method="post">
+                        <div class="form-group">
+                            <label for="sentimiento">Escribe tu sentimiento:</label>
+                            <input type="text" class="form-control" id="sentimiento" name="sentimiento" required />
+                        </div>
+                        <button type="submit" class="btn btn-success btn-block">Enviar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (ViewData["Sentimiento"] != null)
+    {
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header" style="background-color: #ff0000; color: white;">
+                        <h5>Resultado de la Predicción</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Resultado:</strong> @ViewData["Sentimiento"]</p>
+                        <p><strong>Score:</strong> @ViewData["Score"]</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<style>
+    .card-body {
+        padding: 20px;
+    }
+    .btn-success {
+        background-color: #28a745;
+        border: none;
+    }
+    .btn-success:hover {
+        background-color: #218838;
+    }
+    .container {
+        max-width: 800px;
+    }
+</style>

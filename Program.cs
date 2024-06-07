@@ -1,11 +1,13 @@
 using Microsoft.Extensions.ML;
-
+using SentimentAnalysis;
 using Microsoft.OpenApi.Models;
 using practica4.Data;
 using practica4.Service;
 using practica4_ML;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddPredictionEnginePool<MLModel1.ModelInput, MLModel1.ModelOutput>()
+    .FromFile("MLModel1.mlnet");
 
 builder.Services.AddPredictionEnginePool<ProductoRating, ProductoRatingPrediction>()
     .FromFile("MLRecomendation.mlnet");
