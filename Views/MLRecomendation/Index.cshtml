@@ -1,0 +1,52 @@
+@{
+    ViewData["Title"] = "¡DESCUBRE LAS MEJORES LECHES EN PERÚ!";
+    var ratings = ViewData["ratings"] as List<(int productoId, float normalizedScore)>;
+    var trendingProductos = ViewData["trendingproductos"] as List<practica4.Models.Producto>;
+}
+
+
+
+<h1 class="text-center mt-4" style="color: #001aff;">@ViewData["Title"]</h1>
+
+<p class="text-center mt-4" style="color: #000000;">SIRVASE A INGRESAR UN ID DE USUARIO</p>
+
+<div class="container mt-3"  padding: 20px; border-radius: 10px;">
+    <form asp-controller="MLRecomendation" asp-action="Predict" method="post" class="rounded p-4" style="max-width: 400px; margin: 0 auto;">
+        <div class="form-group text-center">
+            <input type="text" class="form-control" id="id" name="id" style="background-color: #ffcc99; border: 2px solid #336699; color: #336699; font-weight: bold;" />
+        </div>
+        <button type="submit" class="btn btn-primary w-100 mt-2" style="background-color: #1900ff; border: none;">Enviar</button>
+    </form>
+</div>
+
+@if (ratings != null && ratings.Count > 0)
+{
+    <h2 class="text-center mt-4" style="color: #336699;">Aquí tienes algunas recomendaciones de tipos de leche:</h2>
+
+    <div class="table-responsive" style="border: 2px solid #1900ff; border-radius: 10px; padding: 10px;">
+        <table class="table table-striped mt-3" style="color: #336699;">
+            <thead>
+                <tr>
+                    <th scope="col" style="color: #1900ff;">ID DEL PRODUCTO</th>
+                    <th scope="col" style="color: #1900ff;">NOMBRE DEL PRODUCTO</th>
+                    <th scope="col" style="color: #1900ff;">RATING</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var rating in ratings)
+                {
+                    var producto = trendingProductos.FirstOrDefault(p => p.ProductoId == rating.productoId);
+                    <tr>
+                        <td style="color: #1900ff;">@rating.productoId</td>
+                        <td style="color: #1900ff;">@producto?.NombreProducto</td>
+                        <td style="color: #1900ff;">@rating.normalizedScore</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <p class="text-center mt-4" style="color: #1900ff;"></p>
+}
